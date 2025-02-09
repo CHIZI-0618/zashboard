@@ -60,10 +60,7 @@
         </div>
       </template>
 
-      <div
-        class="grid max-w-screen-lg grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-5"
-        v-if="version"
-      >
+      <div class="grid max-w-screen-lg grid-cols-2 gap-2 md:grid-cols-3 xl:grid-cols-5">
         <template v-if="!isSingBox">
           <div class="indicator w-full">
             <span
@@ -88,12 +85,15 @@
           >
             {{ $t('restartCore') }}
           </button>
-          <button
-            :class="twMerge('btn btn-sm', isConfigReloading ? 'animate-pulse' : '')"
-            @click="handlerClickReloadConfigs"
-          >
-            {{ $t('reloadConfigs') }}
-          </button>
+        </template>
+        <!-- 移除 v-if 条件，始终显示 reload 按钮 -->
+        <button
+          :class="twMerge('btn btn-sm', isConfigReloading ? 'animate-pulse' : '')"
+          @click="handlerClickReloadConfigs"
+        >
+          {{ $t('reloadConfigs') }}
+        </button>
+        <template v-if="!isSingBox">
           <button
             :class="twMerge('btn btn-sm', isGeoUpdating ? 'animate-pulse' : '')"
             @click="handlerClickUpdateGeo"
