@@ -105,12 +105,15 @@
           >
             {{ $t('restartCore') }}
           </button>
-          <button
-            :class="twMerge('btn btn-sm', isConfigReloading ? 'animate-pulse' : '')"
-            @click="handlerClickReloadConfigs"
-          >
-            {{ $t('reloadConfigs') }}
-          </button>
+        </template>
+        <!-- 移除 v-if 条件，始终显示 reload 按钮 -->
+        <button
+          :class="twMerge('btn btn-sm', isConfigReloading ? 'animate-pulse' : '')"
+          @click="handlerClickReloadConfigs"
+        >
+          {{ $t('reloadConfigs') }}
+        </button>
+        <template v-if="!isSingBox">
           <button
             :class="twMerge('btn btn-sm', isGeoUpdating ? 'animate-pulse' : '')"
             @click="handlerClickUpdateGeo"
