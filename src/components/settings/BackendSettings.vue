@@ -5,7 +5,7 @@
       <div class="indicator">
         <span
           v-if="isCoreUpdateAvailable"
-          class="indicator-item top-1 -right-1 flex"
+          class="indicator-item -right-1 top-1 flex"
         >
           <span class="bg-secondary absolute h-2 w-2 animate-ping rounded-full"></span>
           <span class="bg-secondary h-2 w-2 rounded-full"></span>
@@ -111,12 +111,15 @@
           >
             {{ $t('restartCore') }}
           </button>
-          <button
-            :class="twMerge('btn btn-sm', isConfigReloading ? 'animate-pulse' : '')"
-            @click="handlerClickReloadConfigs"
-          >
-            {{ $t('reloadConfigs') }}
-          </button>
+        </template>
+        <!-- 移除 v-if 条件，始终显示 reload 按钮 -->
+        <button
+          :class="twMerge('btn btn-sm', isConfigReloading ? 'animate-pulse' : '')"
+          @click="handlerClickReloadConfigs"
+        >
+          {{ $t('reloadConfigs') }}
+        </button>
+        <template v-if="!isSingBox">
           <button
             :class="twMerge('btn btn-sm', isGeoUpdating ? 'animate-pulse' : '')"
             @click="handlerClickUpdateGeo"
