@@ -4,7 +4,7 @@
       <div class="flex items-center justify-between gap-2">
         <div class="text-xl font-medium">
           {{ proxyProvider.name }}
-          <span class="text-sm font-normal text-base-content/60"> ({{ proxiesCount }}) </span>
+          <span class="text-base-content/60 text-sm font-normal"> ({{ proxiesCount }}) </span>
         </div>
         <div class="flex gap-2">
           <button
@@ -21,6 +21,7 @@
             />
           </button>
           <button
+            v-if="proxyProvider.vehicleType !== 'Inline'"
             :class="twMerge('btn btn-circle btn-sm z-30', isUpdating ? 'animate-spin' : '')"
             @click.stop="updateProviderClickHandler"
           >
@@ -29,7 +30,7 @@
         </div>
       </div>
       <div
-        class="flex items-end justify-between text-sm text-base-content/60 max-sm:flex-col max-sm:items-start"
+        class="text-base-content/60 flex items-end justify-between text-sm max-sm:flex-col max-sm:items-start"
       >
         <div>
           <div v-if="subscriptionInfo">

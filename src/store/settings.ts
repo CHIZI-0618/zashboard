@@ -136,16 +136,23 @@ export const connectionCardLines = useStorage<CONNECTIONS_TABLE_ACCESSOR_KEY[][]
 )
 
 const filterLegacyDetailsOpt = (key: string) => key !== 'details'
-const replaceLegacyTransferType = (key: string) =>
-  key === 'transferType'
-    ? CONNECTIONS_TABLE_ACCESSOR_KEY.DestinationType
-    : (key as CONNECTIONS_TABLE_ACCESSOR_KEY)
+const replaceLegacyKey = (key: string) => {
+  if (key === 'transferType') {
+    return CONNECTIONS_TABLE_ACCESSOR_KEY.DestinationType
+  }
+
+  if (key === 'proxyNodeAddress') {
+    return CONNECTIONS_TABLE_ACCESSOR_KEY.RemoteAddress
+  }
+
+  return key as CONNECTIONS_TABLE_ACCESSOR_KEY
+}
 
 connectionTableColumns.value = connectionTableColumns.value
   .filter(filterLegacyDetailsOpt)
-  .map(replaceLegacyTransferType)
+  .map(replaceLegacyKey)
 connectionCardLines.value = connectionCardLines.value.map((lines) =>
-  lines.filter(filterLegacyDetailsOpt).map(replaceLegacyTransferType),
+  lines.filter(filterLegacyDetailsOpt).map(replaceLegacyKey),
 )
 
 const sourceIPLabelMap = useStorage<Record<string, string>>('config/source-ip-label-map', {})
