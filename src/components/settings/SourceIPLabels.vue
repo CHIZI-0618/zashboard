@@ -1,7 +1,24 @@
 <template>
-  <div>{{ $t('sourceIPLabels') }}</div>
+  <div class="flex items-center gap-2">
+    {{ $t('sourceIPLabels') }}
+    <button
+      v-if="sourceIPLabelList.length"
+      class="btn btn-sm btn-circle"
+      @click="dialogVisible = !dialogVisible"
+    >
+      <ChevronUpIcon
+        v-if="dialogVisible"
+        class="h-4 w-4"
+      />
+      <ChevronDownIcon
+        v-else
+        class="h-4 w-4"
+      />
+    </button>
+  </div>
   <div class="flex flex-col gap-2 p-1 pr-0">
     <Draggable
+      v-if="dialogVisible"
       class="flex flex-1 flex-col gap-2"
       v-model="sourceIPLabelList"
       group="list"
@@ -70,17 +87,20 @@ import { connections } from '@/store/connections'
 import { sourceIPLabelList } from '@/store/settings'
 import {
   ArrowRightCircleIcon,
+  ChevronDownIcon,
   ChevronUpDownIcon,
+  ChevronUpIcon,
   PlusIcon,
   TagIcon,
   TrashIcon,
 } from '@heroicons/vue/24/outline'
 import { uniq } from 'lodash'
 import { v4 as uuid } from 'uuid'
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import Draggable from 'vuedraggable'
 import TextInput from '../common/TextInput.vue'
 
+const dialogVisible = ref(false)
 const sourceList = computed(() => {
   return uniq(connections.value.map((conn) => conn.metadata.sourceIP))
     .filter(Boolean)
@@ -98,6 +118,7 @@ const handlerLabelAdd = () => {
     return
   }
 
+  dialogVisible.value = true
   sourceIPLabelList.value.push({
     key: newLabelForIP.key,
     label: newLabelForIP.label,

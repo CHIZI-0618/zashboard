@@ -173,6 +173,7 @@ const ru: LANG_MESSAGE = {
   themeName: 'Название темы',
   save: 'Сохранить',
   moreDetails: 'Подробнее',
+  customIcon: 'Пользовательская иконка',
 }
 
 export default ru

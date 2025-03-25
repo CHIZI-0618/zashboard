@@ -84,7 +84,7 @@
 }
 
 .tippy-box {
-  @apply bg-neutral text-neutral-content z-9999 shadow-md;
+  @apply bg-neutral text-neutral-content z-[9999] shadow-md;
 }
 .tippy-box[data-placement^='top'] > .tippy-arrow:before {
   @apply border-t-neutral;

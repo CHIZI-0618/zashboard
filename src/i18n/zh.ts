@@ -170,6 +170,7 @@ const zh: LANG_MESSAGE = {
   themeName: '主题名称',
   save: '保存',
   moreDetails: '更多详情',
+  customIcon: '自定义图标',
 }
 
 export default zh

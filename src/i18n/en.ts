@@ -171,6 +171,7 @@ const en = {
   themeName: 'Theme Name',
   save: 'Save',
   moreDetails: 'More Details',
+  customIcon: 'Custom Icon',
 }
 
 export type LANG_MESSAGE = typeof en
