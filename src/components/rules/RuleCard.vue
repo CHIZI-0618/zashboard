@@ -4,42 +4,51 @@
       class="flex flex-col gap-2 overflow-hidden p-2 text-sm"
       :class="{
         'cursor-pointer': isSelectable,
+        'opacity-50': rule.disabled, /* ✅ 禁用规则显示淡化 */
       }"
-      @click="isSelectable && ((isCollapsed = !isCollapsed), (selected = rule.proxy))"
+      @click="isSelectable && !rule.disabled && ((isCollapsed = !isCollapsed), (selected = rule.proxy))"
     >
-      <div class="min-h-6 leading-6">
-        <span>{{ index }}.</span>
-        <span class="ml-2">{{ rule.type }}</span>
-        <span
-          class="text-main ml-2"
-          v-if="rule.payload"
-        >
-          {{ rule.payload }}
-        </span>
-        <span
-          v-if="typeof size === 'number' && size !== -1"
-          class="text-base-content/80 ml-1 text-xs"
-        >
-          ({{ size }})
-          <QuestionMarkCircleIcon
-            v-if="size === 0"
-            class="-mt-1 ml-1 inline-block h-4 w-4"
-            @mouseenter="showMMDBSizeTip"
-          />
-        </span>
+      <div class="min-h-6 leading-6 flex items-center justify-between">
+        <div>
+          <span>{{ index }}.</span>
+          <span class="ml-2">{{ rule.type }}</span>
+          <span class="text-main ml-2" v-if="rule.payload">{{ rule.payload }}</span>
+          <span
+            v-if="typeof size === 'number' && size !== -1"
+            class="text-base-content/80 ml-1 text-xs"
+          >
+            ({{ size }})
+            <QuestionMarkCircleIcon
+              v-if="size === 0"
+              class="-mt-1 ml-1 inline-block h-4 w-4"
+              @mouseenter="showMMDBSizeTip"
+            />
+          </span>
+          <button
+            v-if="isUpdateableRuleSet"
+            :class="
+              twMerge(
+                'btn btn-circle btn-ghost btn-xs -mt-[2px] ml-1',
+                isUpdating ? 'animate-spin' : '',
+              )
+            "
+            @click="updateRuleProviderClickHandler"
+          >
+            <ArrowPathIcon class="h-4 w-4" />
+          </button>
+        </div>
+
+        <!-- ✅ 新增状态切换按钮 -->
         <button
-          v-if="isUpdateableRuleSet"
-          :class="
-            twMerge(
-              'btn btn-circle btn-ghost btn-xs -mt-[2px] ml-1',
-              isUpdating ? 'animate-spin' : '',
-            )
-          "
-          @click="updateRuleProviderClickHandler"
+          class="btn btn-xs btn-ghost ml-2"
+          :disabled="isToggling"
+          @click.stop="toggleRuleStatus"
         >
-          <ArrowPathIcon class="h-4 w-4" />
+          <span v-if="rule.disabled" class="text-error">禁用</span>
+          <span v-else class="text-success">启用</span>
         </button>
       </div>
+
       <div class="flex min-h-6 flex-wrap items-center gap-2">
         <ProxyName
           v-if="isCollapsed"
@@ -47,24 +56,17 @@
           class="badge gap-0 text-xs"
         />
         <template v-if="!isCollapsed">
-          <template
-            v-for="(chain, index) in proxyChains"
-            :key="chain"
-          >
-            <ArrowRightCircleIcon
-              class="h-4 w-4"
-              v-if="index > 0"
-            />
+          <template v-for="(chain, index) in proxyChains" :key="chain">
+            <ArrowRightCircleIcon class="h-4 w-4" v-if="index > 0" />
             <ProxyName
               :name="chain"
               class="badge gap-0 text-xs"
-              :class="{
-                'bg-neutral text-neutral-content': selected === chain,
-              }"
+              :class="{ 'bg-neutral text-neutral-content': selected === chain }"
               @click.stop="selected = chain"
             />
           </template>
         </template>
+
         <template v-if="proxyNode?.now && displayNowNodeInRule">
           <ArrowRightCircleIcon class="h-4 w-4" />
           <ProxyName
@@ -73,6 +75,7 @@
             @click.stop
           />
         </template>
+
         <span
           v-if="latency !== NOT_CONNECTED && displayLatencyInRule"
           :class="latencyColor"
@@ -85,16 +88,13 @@
 
     <template v-if="isSelectable && !isCollapsed">
       <div class="border-base-content/15 border-b"></div>
-      <ProxyGroup
-        :name="selected"
-        class="transparent-collapse"
-      />
+      <ProxyGroup :name="selected" class="transparent-collapse" />
     </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { updateRuleProviderAPI } from '@/api'
+import { updateRuleProviderAPI, toggleRuleStatusAPI } from '@/api'
 import { useBounceOnVisible } from '@/composables/bouncein'
 import { NOT_CONNECTED } from '@/constant'
 import { getColorForLatency } from '@/helper'
@@ -129,7 +129,6 @@ const isCollapsed = ref(true)
 const isSelectable = computed(() => proxyGroupList.value.includes(props.rule.proxy))
 const selected = ref('')
 const proxyChains = computed(() => getProxyGroupChains(props.rule.proxy))
-
 const { t } = useI18n()
 const { showTip } = useTooltip()
 const proxyNode = computed(() => proxyMap.value[props.rule.proxy])
@@ -138,30 +137,21 @@ const latencyColor = computed(() => getColorForLatency(Number(latency.value)))
 
 const size = computed(() => {
   if (props.rule.type === 'RuleSet') {
-    return ruleProviderList.value.find((provider) => provider.name === props.rule.payload)
-      ?.ruleCount
+    return ruleProviderList.value.find((provider) => provider.name === props.rule.payload)?.ruleCount
   }
-
   return props.rule.size
 })
 
 const isUpdating = ref(false)
 const isUpdateableRuleSet = computed(() => {
-  if (props.rule.type !== 'RuleSet') {
-    return false
-  }
-
+  if (props.rule.type !== 'RuleSet') return false
   const provider = ruleProviderList.value.find((provider) => provider.name === props.rule.payload)
-
-  if (!provider) {
-    return false
-  }
+  if (!provider) return false
   return provider.vehicleType !== 'Inline'
 })
 
 const updateRuleProviderClickHandler = async () => {
   if (isUpdating.value) return
-
   isUpdating.value = true
   await updateRuleProviderAPI(props.rule.payload)
   fetchRules()
@@ -172,5 +162,19 @@ const showMMDBSizeTip = (e: Event) => {
   showTip(e, t('mmdbSizeTip'))
 }
 
+/* ✅ 新增：切换规则状态 */
+const isToggling = ref(false)
+const toggleRuleStatus = async () => {
+  if (isToggling.value) return
+  isToggling.value = true
+  try {
+    await toggleRuleStatusAPI(props.rule.uuid)
+    await fetchRules() // 重新获取规则以更新状态
+  } finally {
+    isToggling.value = false
+  }
+}
+
 useBounceOnVisible()
 </script>
+

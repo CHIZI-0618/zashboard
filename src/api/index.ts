@@ -147,6 +147,11 @@ export const fetchRulesAPI = () => {
   return axios.get<{ rules: Rule[] }>('/rules')
 }
 
+/* ✅ 新增：切换规则启用/禁用状态 */
+export const toggleRuleStatusAPI = (uuid: string) => {
+  return axios.put(`/rules/${encodeURIComponent(uuid)}`)
+}
+
 export const fetchRuleProvidersAPI = () => {
   return axios.get<{ providers: Record<string, RuleProvider> }>('/providers/rules')
 }
@@ -371,3 +376,4 @@ export const fetchBackendUpdateAvailableAPI = async () => {
 
   return false
 }
+
