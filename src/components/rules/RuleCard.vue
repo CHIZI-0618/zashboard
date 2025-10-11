@@ -38,15 +38,27 @@
           </button>
         </div>
 
-        <!-- ✅ 新增状态切换按钮 -->
-        <button
-          class="btn btn-xs btn-ghost ml-2"
-          :disabled="isToggling"
-          @click.stop="toggleRuleStatus"
-        >
-          <span v-if="rule.disabled" class="text-error">禁用</span>
-          <span v-else class="text-success">启用</span>
-        </button>
+        <!-- ✅ 新增状态展示 + 操作按钮 -->
+        <div class="flex items-center ml-2">
+          <!-- 状态文本（始终显示） -->
+          <span
+            class="text-xs font-semibold"
+            :class="rule.disabled ? 'text-error' : 'text-success'"
+          >
+            {{ rule.disabled ? '禁用' : '启用' }}
+          </span>
+
+          <!-- 仅在开启 displayAllFeatures 时可操作 -->
+          <button
+            v-if="displayAllFeatures"
+            class="btn btn-xs btn-ghost ml-2"
+            :disabled="isToggling"
+            @click.stop="toggleRuleStatus"
+          >
+            <span v-if="isToggling" class="loading loading-spinner loading-xs"></span>
+            <span v-else>{{ rule.disabled ? '启用' : '禁用' }}</span>
+          </button>
+        </div>
       </div>
 
       <div class="flex min-h-6 flex-wrap items-center gap-2">
@@ -107,7 +119,7 @@ import {
   proxyMap,
 } from '@/store/proxies'
 import { fetchRules, ruleProviderList } from '@/store/rules'
-import { displayLatencyInRule, displayNowNodeInRule } from '@/store/settings'
+import { displayAllFeatures, displayLatencyInRule, displayNowNodeInRule } from '@/store/settings'
 import type { Rule } from '@/types'
 import {
   ArrowPathIcon,
@@ -162,10 +174,10 @@ const showMMDBSizeTip = (e: Event) => {
   showTip(e, t('mmdbSizeTip'))
 }
 
-/* ✅ 新增：切换规则状态 */
+/* ✅ 切换规则启用/禁用状态 */
 const isToggling = ref(false)
 const toggleRuleStatus = async () => {
-  if (isToggling.value) return
+  if (isToggling.value || !displayAllFeatures.value) return
   isToggling.value = true
   try {
     await toggleRuleStatusAPI(props.rule.uuid)
@@ -177,4 +189,3 @@ const toggleRuleStatus = async () => {
 
 useBounceOnVisible()
 </script>
-
