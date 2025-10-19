@@ -33,7 +33,7 @@ export default defineConfig({
     vueJsx(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
+      includeAssets: ['favicon.svg', 'favicon-dark.svg'],
       manifest: {
         name: 'zashboard',
         short_name: 'zashboard',

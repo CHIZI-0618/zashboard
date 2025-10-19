@@ -73,11 +73,11 @@ const handlerSearchInputClick = (e: Event) => {
           'div',
           { class: 'max-h-64 overflow-y-auto overflow-x-hidden scrollbar-hidden min-w-24' },
           props.menus.map((item) =>
-            h('div', { class: 'cursor-pointer p-1 flex gap-2 items-center' }, [
+            h('div', { class: 'cursor-pointer p-1 flex gap-2 items-center overflow-hidden' }, [
               h(
                 'span',
                 {
-                  class: 'flex-1 transition-transform hover:scale-105 hover:text-primary',
+                  class: 'flex-1 transition-transform hover:scale-105 hover:text-primary truncate',
                   onClick: () => {
                     inputValue.value = item
                     hideTip()
@@ -88,12 +88,14 @@ const handlerSearchInputClick = (e: Event) => {
               props.menusDeleteable &&
                 h(XMarkIcon, {
                   class: 'h-3 w-3 transition-transform hover:scale-125',
-                  onClick: () => {
+                  onClick: (e) => {
+                    const target = e.target as HTMLElement
+
                     emits(
                       'update:menus',
                       props.menus.filter((menu) => menu !== item),
                     )
-                    hideTip()
+                    target.closest('div')?.remove()
                   },
                 }),
             ]),

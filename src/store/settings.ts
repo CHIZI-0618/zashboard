@@ -99,7 +99,7 @@ export const numberOfChartsInSidebar = useStorage<1 | 2 | 3>(
   'config/number-of-charts-in-sidebar',
   2,
 )
-export const displayProxiesRelationship = useStorage('config/display-proxies-relationship', true)
+export const displayConnectionTopology = useStorage('config/display-connection-topology', true)
 
 // proxies
 export const collapseGroupMap = useStorage<Record<string, boolean>>('config/collapse-group-map', {})

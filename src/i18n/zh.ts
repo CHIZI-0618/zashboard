@@ -17,6 +17,7 @@ const zh: LANG_MESSAGE = {
   upload: '上传',
   downloadSpeed: '下载速度',
   uploadSpeed: '上传速度',
+  speed: '速度',
   memoryUsage: '内存使用',
   version: '版本',
   noContent: '无内容',
@@ -222,8 +223,8 @@ const zh: LANG_MESSAGE = {
   autoDisconnectIdleUDPTip:
     '启用后，打开zashboard时将关闭持续时间超过配置分钟数的UDP连接，这可能对某些无法正常自动断开的UDP连接带来帮助。(这是作者自己的私货，你大概率不需要打开它)',
   customGlobalNode: '自定义全局节点',
-  proxiesRelationship: '节点关系',
-  displayProxiesRelationship: '显示节点关系',
+  connectionTopology: '连接拓扑',
+  displayConnectionTopology: '显示连接拓扑',
   editBackend: '编辑后端',
   editBackendTitle: '修改后端配置',
   selectBackend: '选择后端',
@@ -246,6 +247,14 @@ const zh: LANG_MESSAGE = {
   groupTestUrlsTip:
     '对于从面板手动触发的测试，此处设置测试链接 > 配置中的链接 > 面板全局测试链接，但是对于UrlTest/Fallback等具有核心内部的定时测速逻辑的组，仍然需要修改配置中的链接，此处仅推荐Selector等场景',
   groupName: '组名',
+  noData: '暂无数据',
+  unknown: '未知',
+  sourceIPAddress: '源IP地址',
+  ruleMatch: '规则匹配',
+  proxyChainEntry: '代理链入口',
+  proxyChainExit: '代理链出口',
+  nodeType: '节点类型',
+  connectionCount: '连接数',
 }
 
 export default zh

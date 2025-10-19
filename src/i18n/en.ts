@@ -15,6 +15,7 @@ const en = {
   upload: 'Upload',
   downloadSpeed: 'Download Speed',
   uploadSpeed: 'Upload Speed',
+  speed: 'Speed',
   memoryUsage: 'Memory Usage',
   version: 'Version',
   noContent: 'No Content',
@@ -223,8 +224,8 @@ const en = {
   autoDisconnectIdleUDPTip:
     "When enabled, opening zashboard will close UDP connections that have been idle longer than the configured time. This may help with UDP connections that don't disconnect automatically as expected.",
   customGlobalNode: 'Custom Global Node',
-  proxiesRelationship: 'Proxy Relationships',
-  displayProxiesRelationship: 'Show Proxy Relationships',
+  connectionTopology: 'Connection Topology',
+  displayConnectionTopology: 'Show Connection Topology',
   editBackend: 'Edit Backend',
   editBackendTitle: 'Edit Backend Configuration',
   selectBackend: 'Select Backend',
@@ -247,6 +248,14 @@ const en = {
   groupTestUrlsTip:
     'For manual tests triggered from the panel, set test URLs here > URLs in configuration > Global test URLs, but for groups with UrlTest/Fallback, etc., the URLs in the configuration still need to be modified, So this is only recommended for Selector scenes',
   groupName: 'Group Name',
+  noData: 'No Data',
+  unknown: 'Unknown',
+  sourceIPAddress: 'Source IP Address',
+  ruleMatch: 'Rule Match',
+  proxyChainEntry: 'Proxy Chain Entry',
+  proxyChainExit: 'Proxy Chain Exit',
+  nodeType: 'Node Type',
+  connectionCount: 'Connection Count',
 }
 
 export type LANG_MESSAGE = typeof en

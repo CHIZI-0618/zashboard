@@ -43,11 +43,11 @@
         class="flex items-center gap-2"
         v-if="splitOverviewPage"
       >
-        {{ $t('displayProxiesRelationship') }}
+        {{ $t('displayConnectionTopology') }}
         <input
           class="toggle"
           type="checkbox"
-          v-model="displayProxiesRelationship"
+          v-model="displayConnectionTopology"
         />
       </div>
       <div class="flex items-center gap-2 max-md:hidden">
@@ -81,7 +81,7 @@
 import {
   autoConnectionCheck,
   autoIPCheck,
-  displayProxiesRelationship,
+  displayConnectionTopology,
   numberOfChartsInSidebar,
   showIPAndConnectionInfo,
   showStatisticsWhenSidebarCollapsed,

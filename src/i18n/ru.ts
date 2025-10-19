@@ -17,6 +17,7 @@ const ru: LANG_MESSAGE = {
   upload: 'Отправлено',
   downloadSpeed: 'Скорость загрузки',
   uploadSpeed: 'Скорость отдачи',
+  speed: 'Скорость',
   memoryUsage: 'Память',
   version: 'Версия',
   noContent: 'Нет содержимого',
@@ -225,8 +226,8 @@ const ru: LANG_MESSAGE = {
   autoDisconnectIdleUDPTip:
     'При включении открытие zashboard приведёт к закрытию UDP-соединений, продолжительность которых превышает заданное количество минут. Это может помочь в случае с некоторыми UDP-соединениями, которые не разрываются автоматически, как ожидается.',
   customGlobalNode: 'Пользовательский глобальный узел',
-  proxiesRelationship: 'Отношение прокси',
-  displayProxiesRelationship: 'Показать отношение прокси',
+  connectionTopology: 'Топология соединений',
+  displayConnectionTopology: 'Показать топологию соединений',
   editBackend: 'Редактировать бэкенд',
   editBackendTitle: 'Редактировать конфигурацию бэкенда',
   selectBackend: 'Выберите бэкенд',
@@ -249,6 +250,14 @@ const ru: LANG_MESSAGE = {
   groupTestUrlsTip:
     'Для ручных тестов, запущенных из панели, установите тестовые URL > URL в конфигурации > Глобальные тестовые URL, но для групп с UrlTest/Fallback и т.д., URL в конфигурации все равно нужно изменить, поэтому это рекомендуется только для Selector и т.д. ',
   groupName: 'Группа имени',
+  noData: 'Нет данных',
+  unknown: 'Неизвестно',
+  sourceIPAddress: 'Исходный IP-адрес',
+  ruleMatch: 'Совпадение правила',
+  proxyChainEntry: 'Вход в цепочку прокси',
+  proxyChainExit: 'Выход из цепочки прокси',
+  nodeType: 'Тип узла',
+  connectionCount: 'Количество соединений',
 }
 
 export default ru
